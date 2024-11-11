@@ -1,0 +1,41 @@
+---
+import { languages } from '../i18n/ui';
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname;
+
+function getTargetPath(currentPath: string, targetLang: string) {
+  // Special handling for services pages
+  if (currentPath.includes('/uslugi')) {
+    return targetLang === 'en' ? '/en/services' : '/uslugi';
+  }
+  if (currentPath.includes('/services')) {
+    return targetLang === 'en' ? '/en/services' : '/uslugi';
+  }
+
+  // Handle root path
+  if (currentPath === '/' || currentPath === '/en') {
+    return targetLang === 'en' ? '/en' : '/';
+  }
+
+  // Handle other pages
+  const path = currentPath.replace(/^\/(en\/)?/, '');
+  return targetLang === 'en' ? `/en/${path}` : `/${path}`;
+}
+---
+
+<div class="flex items-center space-x-2">
+  {Object.entries(languages).map(([langCode, label]) => (
+    <a 
+      href={getTargetPath(currentPath, langCode)}
+      class={`px-2 py-1 rounded-md text-sm font-medium transition-colors ${
+        lang === langCode 
+          ? 'bg-primary text-white' 
+          : 'text-gray-600 hover:text-primary hover:bg-gray-100'
+      }`}
+    >
+      {label}
+    </a>
+  ))}
+</div> 

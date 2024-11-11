@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import officeImage from '../assets/images/office.jpg';
+
+const { lang } = Astro.params;
+const isPolish = lang !== 'en';
+
+const content = isPolish ? {
+  title: 'Nasze Usługi',
+  description: 'Kompleksowe usługi księgowe i doradztwo podatkowe dla Twojej firmy.',
+  hero: {
+    title: 'Profesjonalne Usługi Księgowe',
+    subtitle: 'Skupiamy się na Twoim sukcesie'
+  },
+  services: [
+    {
+      title: 'Księgowość dla Firm',
+      description: 'Pełna obsługa księgowa, prowadzenie ksiąg rachunkowych, rozliczenia z ZUS i US.',
+      icon: '📊',
+      features: ['Prowadzenie ksiąg rachunkowych', 'Rozliczenia z ZUS', 'Deklaracje podatkowe', 'Sprawozdania finansowe']
+    },
+    {
+      title: 'Doradztwo Podatkowe',
+      description: 'Profesjonalne doradztwo w zakresie optymalizacji podatkowej i planowania finansowego.',
+      icon: '💡',
+      features: ['Optymalizacja podatkowa', 'Planowanie finansowe', 'Audyty podatkowe', 'Konsultacje']
+    },
+    {
+      title: 'Kadry i Płace',
+      description: 'Kompleksowa obsługa kadrowo-płacowa, rozliczanie wynagrodzeń i świadczeń.',
+      icon: '👥',
+      features: ['Rozliczanie wynagrodzeń', 'Dokumentacja pracownicza', 'Umowy o pracę', 'Świadczenia pracownicze']
+    },
+    {
+      title: 'Sprawozdawczość Finansowa',
+      description: 'Przygotowywanie raportów finansowych, analiz i sprawozdań dla zarządu.',
+      icon: '📈',
+      features: ['Raporty finansowe', 'Analizy biznesowe', 'Sprawozdania zarządcze', 'Prognozy finansowe']
+    }
+  ],
+  cta: {
+    title: 'Potrzebujesz Pomocy?',
+    description: 'Skontaktuj się z nami, aby omówić, jak możemy pomóc Twojej firmie.',
+    button: 'Skontaktuj się'
+  }
+} : {/* English content */};
+---
+
+<Layout title={content.title} description={content.description} lang="pl">
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <Image 
+        src={officeImage}
+        alt="Modern office space"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-accent opacity-90"></div>
+      <div class="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-10 animate-float"></div>
+    </div>
+    
+    <div class="relative container mx-auto px-4 py-20 text-center text-white">
+      <div class="stagger-animation">
+        <h1 class="font-display text-4xl md:text-6xl font-bold mb-6 tracking-tight animate-fade-up">
+          {content.hero.title}
+        </h1>
+        <p class="text-xl md:text-2xl mb-4 max-w-2xl mx-auto font-medium text-white/90 animate-fade-up">
+          {content.hero.subtitle}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="py-20 relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 stagger-animation">
+        {content.services.map(service => (
+          <div class="group bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div class="flex items-center mb-6">
+              <div class="text-4xl mr-4 transform transition-transform group-hover:scale-110">{service.icon}</div>
+              <h3 class="text-2xl font-display font-bold text-primary">{service.title}</h3>
+            </div>
+            <p class="text-secondary leading-relaxed mb-6">{service.description}</p>
+            <ul class="space-y-2">
+              {service.features.map(feature => (
+                <li class="flex items-center text-secondary">
+                  <svg class="w-5 h-5 text-accent mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gradient-to-br from-primary to-accent text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5 animate-float"></div>
+    <div class="container mx-auto px-4 text-center relative">
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">{content.cta.title}</h2>
+      <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">{content.cta.description}</p>
+      <a 
+        href="/contact" 
+        class="inline-flex items-center px-8 py-4 bg-white text-primary rounded-lg font-semibold hover:bg-white/90 transition-all duration-300 hover:-translate-y-1"
+      >
+        {content.cta.button}
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stagger-animation > * {
+    opacity: 0;
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+</style> 

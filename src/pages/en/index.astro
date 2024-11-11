@@ -1,0 +1,201 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Image } from 'astro:assets';
+import officeImage from '../../assets/images/office.jpg';
+import office1Image from '../../assets/images/of1.jpg';
+import office2Image from '../../assets/images/of2.jpg';
+import office3Image from '../../assets/images/of3.jpg';
+import '../../styles/animations.css';
+
+const content = {
+  title: 'Professional Accounting Services',
+  description: 'TAX COMFORT - Your trusted partner in accounting and tax matters. We offer comprehensive accounting services for businesses and individuals.',
+  hero: {
+    heading: 'Your Trusted Accounting Partner',
+    subheading: 'Professional accounting services tailored to your needs',
+    tagline: 'Over a decade of experience in accounting and tax advisory',
+    cta: {
+      primary: 'Free Consultation',
+      secondary: 'Our Services'
+    }
+  },
+  features: {
+    title: 'Why TAX COMFORT?',
+    items: [
+      {
+        title: 'Experience',
+        description: 'Over 10 years of experience in the accounting industry',
+        icon: '🏆',
+        image: 'experience.jpg'
+      },
+      {
+        title: 'Professionalism',
+        description: 'Team of qualified experts',
+        icon: '👥',
+        image: 'professionalism.jpg'
+      },
+      {
+        title: 'Individual approach',
+        description: 'Solutions tailored to each client\'s needs',
+        icon: '🎯',
+        image: 'individual-approach.jpg'
+      }
+    ]
+  },
+  stats: {
+    title: 'They Trust Us',
+    items: [
+      { number: '500+', label: 'Satisfied Clients' },
+      { number: '10+', label: 'Years of Experience' },
+      { number: '1000+', label: 'Tax Returns Filed' }
+    ]
+  }
+};
+---
+
+<Layout title={content.title} description={content.description} lang="en">
+  <!-- Hero Section -->
+  <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-20 md:pt-24">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+      <Image 
+        src={officeImage}
+        alt="Modern office space"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-accent opacity-90"></div>
+      <div class="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-10 animate-float"></div>
+    </div>
+    
+    <!-- Content -->
+    <div class="relative w-full">
+      <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-12 lg:grid-cols-12">
+        <div class="mr-auto place-self-center lg:col-span-7">
+          <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 tracking-tight animate-fade-up">
+            {content.hero.heading}
+          </h1>
+          <p class="text-xl md:text-2xl mb-4 max-w-2xl mx-auto font-medium text-white/90 animate-fade-up">
+            {content.hero.subheading}
+          </p>
+          <p class="text-lg mb-12 max-w-xl mx-auto text-white/80 animate-fade-up">
+            {content.hero.tagline}
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up">
+            <a
+              href={getRelativeLocaleUrl('en', '/contact')}
+              class="group w-full sm:w-auto inline-flex items-center justify-center bg-cta text-white px-8 py-4 rounded-lg font-semibold hover:bg-cta/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
+            >
+              {content.hero.cta.primary}
+              <span class="ml-2 transform transition-transform group-hover:translate-x-1">→</span>
+            </a>
+            <a
+              href={getRelativeLocaleUrl('en', '/services')}
+              class="group w-full sm:w-auto inline-flex items-center justify-center bg-white/10 backdrop-blur-sm text-white border-2 border-white/20 px-8 py-4 rounded-lg font-semibold hover:bg-white/20 transition-all duration-300"
+            >
+              {content.hero.cta.secondary}
+              <span class="ml-2 opacity-0 transform transition-all group-hover:opacity-100 group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </div>
+        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+          <!-- Scroll Indicator -->
+          <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    
+    <div class="container mx-auto px-4">
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-center mb-16 text-primary">
+        {content.features.title}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {content.features.items.map((feature, index) => (
+          <div class="group bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div class="mb-6 relative overflow-hidden rounded-lg">
+              <Image 
+                src={[office3Image, office1Image, office2Image][index]}
+                alt={feature.title}
+                class="w-full h-48 object-cover transform transition-transform group-hover:scale-105 duration-500"
+                width={400}
+                height={300}
+              />
+              <div class="absolute -bottom-4 -right-4 w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center text-3xl transform group-hover:scale-110 transition-transform">
+                {feature.icon}
+              </div>
+            </div>
+            <h3 class="text-xl font-display font-semibold mb-4 text-primary">{feature.title}</h3>
+            <p class="text-secondary leading-relaxed">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="bg-gradient-to-br from-primary via-primary/95 to-accent text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5 animate-float"></div>
+    <div class="container mx-auto px-4 py-20 relative">
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-center mb-16">
+        {content.stats.title}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        {content.stats.items.map(stat => (
+          <div class="group relative">
+            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl transform transition-transform group-hover:scale-105 duration-300"></div>
+            <div class="relative p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-colors">
+              <div class="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-white/80 text-transparent bg-clip-text group-hover:scale-110 transition-transform">
+                {stat.number}
+              </div>
+              <div class="text-lg text-white/90 font-medium">{stat.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <!-- Enhanced Decorative Elements -->
+      <div class="absolute top-1/2 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-[40rem] h-[40rem] bg-accent/20 rounded-full blur-3xl translate-x-1/4 translate-y-1/4"></div>
+      <div class="absolute top-0 right-1/4 w-64 h-64 bg-primary/30 rounded-full blur-3xl"></div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  .stagger-animation > * {
+    opacity: 0;
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+</style> 

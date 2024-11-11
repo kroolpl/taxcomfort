@@ -1,0 +1,165 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const currentPath = Astro.url.pathname;
+const getActiveClass = (path: string) => 
+  currentPath.includes(path) ? 'text-cta font-semibold' : 'text-secondary hover:text-primary';
+
+// Define correct paths for each language
+const paths = {
+  services: lang === 'en' ? '/services' : '/uslugi',
+  about: '/about',
+  contact: '/contact'
+};
+
+function getTargetPath(currentPath: string, targetLang: string) {
+  // Special handling for services pages
+  if (currentPath.includes('/uslugi')) {
+    return targetLang === 'en' ? '/en/services' : '/uslugi';
+  }
+  if (currentPath.includes('/services')) {
+    return targetLang === 'en' ? '/en/services' : '/uslugi';
+  }
+
+  // Handle root path
+  if (currentPath === '/' || currentPath === '/en') {
+    return targetLang === 'en' ? '/en' : '/';
+  }
+
+  // Handle other pages
+  const path = currentPath.replace(/^\/(en\/)?/, '');
+  return targetLang === 'en' ? `/en/${path}` : `/${path}`;
+}
+---
+
+<header class="fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-50">
+  <nav class="container mx-auto px-4 py-2">
+    <div class="flex items-center justify-between">
+      <a href={getRelativeLocaleUrl(lang, '/')} class="flex items-center space-x-2 group">
+        <img 
+          src="/images/logov2.png" 
+          alt="TAX COMFORT" 
+          class="h-10 w-auto transition-transform group-hover:scale-105"
+        />
+        <div class="flex items-center space-x-1">
+          <span class="text-lg font-display font-bold text-primary tracking-tight">TAX COMFORT</span>
+          <span class="text-sm font-normal text-secondary">Ltd</span>
+        </div>
+      </a>
+      
+      <div class="flex items-center space-x-6">
+        <div class="hidden lg:flex space-x-8">
+          <a href={getRelativeLocaleUrl(lang, '/')} class={`transition-colors font-medium tracking-wide text-[14px] ${getActiveClass('/')}`}>
+            {t('nav.home')}
+          </a>
+          <a href={getRelativeLocaleUrl(lang, paths.services)} class={`transition-colors font-medium tracking-wide text-[14px] ${getActiveClass(paths.services)}`}>
+            {t('nav.services')}
+          </a>
+          <a href={getRelativeLocaleUrl(lang, paths.about)} class={`transition-colors font-medium tracking-wide text-[14px] ${getActiveClass(paths.about)}`}>
+            {t('nav.about')}
+          </a>
+          <a href={getRelativeLocaleUrl(lang, paths.contact)} class={`transition-colors font-medium tracking-wide text-[14px] ${getActiveClass(paths.contact)}`}>
+            {t('nav.contact')}
+          </a>
+        </div>
+
+        <!-- Language Switcher with Flags -->
+        <div class="flex items-center space-x-2">
+          <a 
+            href={getTargetPath(currentPath, 'pl')}
+            class={`flex items-center space-x-1 px-2 py-1 rounded-md text-sm font-medium tracking-wide transition-colors ${
+              lang === 'pl' 
+                ? 'bg-primary text-white shadow-sm' 
+                : 'text-gray-600 hover:text-primary hover:bg-gray-100'
+            }`}
+          >
+            <img src="/flags/pl.svg" alt="Polski" class="w-4 h-4 rounded-sm shadow-sm" />
+            <span class="sr-only">Polski</span>
+          </a>
+          <a 
+            href={getTargetPath(currentPath, 'en')}
+            class={`flex items-center space-x-1 px-2 py-1 rounded-md text-sm font-medium tracking-wide transition-colors ${
+              lang === 'en' 
+                ? 'bg-primary text-white shadow-sm' 
+                : 'text-gray-600 hover:text-primary hover:bg-gray-100'
+            }`}
+          >
+            <img src="/flags/gb.svg" alt="English" class="w-4 h-4 rounded-sm shadow-sm" />
+            <span class="sr-only">English</span>
+          </a>
+        </div>
+
+        <button id="menu-toggle" class="lg:hidden p-1.5 hover:bg-gray-100 rounded-md transition-colors" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden lg:hidden mt-4">
+      <div class="flex flex-col space-y-2">
+        <a href={getRelativeLocaleUrl(lang, '/')} class={`transition-colors font-medium tracking-wide text-[14px] px-2 py-1.5 rounded-md ${getActiveClass('/')}`}>
+          {t('nav.home')}
+        </a>
+        <a href={getRelativeLocaleUrl(lang, paths.services)} class={`transition-colors font-medium tracking-wide text-[14px] px-2 py-1.5 rounded-md ${getActiveClass(paths.services)}`}>
+          {t('nav.services')}
+        </a>
+        <a href={getRelativeLocaleUrl(lang, paths.about)} class={`transition-colors font-medium tracking-wide text-[14px] px-2 py-1.5 rounded-md ${getActiveClass(paths.about)}`}>
+          {t('nav.about')}
+        </a>
+        <a href={getRelativeLocaleUrl(lang, paths.contact)} class={`transition-colors font-medium tracking-wide text-[14px] px-2 py-1.5 rounded-md ${getActiveClass(paths.contact)}`}>
+          {t('nav.contact')}
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function setupMobileMenu() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (!menuToggle || !mobileMenu) {
+      console.error('Mobile menu elements not found');
+      return;
+    }
+
+    // Remove any existing event listeners
+    const newMenuToggle = menuToggle.cloneNode(true);
+    menuToggle.parentNode?.replaceChild(newMenuToggle, menuToggle);
+
+    // Add click event with touch handling
+    newMenuToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      mobileMenu.classList.toggle('hidden');
+    }, { passive: false });
+
+    // Add touch event
+    newMenuToggle.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      mobileMenu.classList.toggle('hidden');
+    }, { passive: false });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target as Node) && !newMenuToggle.contains(e.target as Node)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+  }
+
+  // Setup on initial load
+  setupMobileMenu();
+
+  // Setup on view transitions
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

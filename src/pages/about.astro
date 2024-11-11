@@ -1,0 +1,192 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import officeImage from '../assets/images/office.jpg'; // For about.astro
+const { lang } = Astro.params;
+
+const content = {
+  title: 'O Nas',
+  description: 'Poznaj zespół TAX COMFORT - Twojego zaufanego partnera w księgowości.',
+  hero: {
+    title: 'Poznaj TAX COMFORT',
+    subtitle: 'Zaufany Partner w Księgowości od 2010 roku'
+  },
+  story: {
+    title: 'Nasza Historia',
+    content: 'Od ponad dekady świadczymy najwyższej jakości usługi księgowe i doradztwo podatkowe. Nasz zespół ekspertów łączy doświadczenie z innowacyjnym podejściem do obsługi klienta.'
+  },
+  values: {
+    title: 'Nasze Wartości',
+    items: [
+      {
+        title: 'Profesjonalizm',
+        description: 'Stawiamy na najwyższe standardy obsługi i ciągły rozwój zawodowy.',
+        icon: '⭐'
+      },
+      {
+        title: 'Zaufanie',
+        description: 'Budujemy długotrwałe relacje oparte na wzajemnym zaufaniu i transparentności.',
+        icon: '🤝'
+      },
+      {
+        title: 'Innowacyjność',
+        description: 'Wykorzystujemy nowoczesne technologie dla efektywnej obsługi klienta.',
+        icon: '💡'
+      }
+    ]
+  },
+  team: {
+    title: 'Nasz Zespół',
+    description: 'Poznaj ekspertów, którzy stoją za sukcesem TAX COMFORT',
+    members: [
+      {
+        name: 'Anna Kowalska',
+        position: 'Główna Księgowa',
+        description: '15 lat doświadczenia w księgowości',
+        image: '/team/person1.jpg'
+      },
+      {
+        name: 'Piotr Nowak',
+        position: 'Doradca Podatkowy',
+        description: 'Ekspert w optymalizacji podatkowej',
+        image: '/team/person2.jpg'
+      },
+      {
+        name: 'Maria Wiśniewska',
+        position: 'Specjalista Kadr i Płac',
+        description: 'Specjalistka w zakresie prawa pracy',
+        image: '/team/person3.jpg'
+      }
+    ]
+  },
+  stats: {
+    items: [
+      { number: '15+', label: 'Lat Doświadczenia' },
+      { number: '1000+', label: 'Zadowolonych Klientów' },
+      { number: '24/7', label: 'Wsparcie' }
+    ]
+  }
+};
+---
+
+<Layout title={content.title} description={content.description} lang="pl">
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <Image 
+        src={officeImage}
+        alt="Modern office space"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-accent opacity-90"></div>
+      <div class="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-10 animate-float"></div>
+    </div>
+    
+    <div class="relative container mx-auto px-4 py-20 text-center text-white">
+      <div class="stagger-animation">
+        <h1 class="font-display text-4xl md:text-6xl font-bold mb-6 tracking-tight animate-fade-up">
+          {content.hero.title}
+        </h1>
+        <p class="text-xl md:text-2xl mb-4 max-w-2xl mx-auto font-medium text-white/90 animate-fade-up">
+          {content.hero.subtitle}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Section with Stats -->
+  <section class="py-20 bg-white relative">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-8 text-primary">{content.story.title}</h2>
+      <p class="text-lg text-secondary leading-relaxed mb-16">{content.story.content}</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        {content.stats.items.map(stat => (
+          <div class="group p-6 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/20 transition-all duration-300">
+            <div class="text-4xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">
+              {stat.number}
+            </div>
+            <div class="text-secondary">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-display font-bold text-center mb-12 text-primary">
+        {content.values.title}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {content.values.items.map(value => (
+          <div class="group bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div class="text-4xl mb-4 transform transition-transform group-hover:scale-110">{value.icon}</div>
+            <h3 class="text-xl font-display font-semibold mb-4 text-primary">{value.title}</h3>
+            <p class="text-secondary leading-relaxed">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-display font-bold text-center mb-4 text-primary">
+        {content.team.title}
+      </h2>
+      <p class="text-lg text-secondary text-center mb-12">{content.team.description}</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {content.team.members.map(member => (
+          <div class="group bg-gradient-to-br from-white to-gray-50 p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white overflow-hidden group-hover:scale-105 transition-transform">
+              <span class="text-3xl">👤</span>
+            </div>
+            <h3 class="text-xl font-display font-semibold text-center mb-2 text-primary">{member.name}</h3>
+            <p class="text-accent text-center mb-4">{member.position}</p>
+            <p class="text-secondary text-center">{member.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  .stagger-animation > * {
+    opacity: 0;
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+</style> 

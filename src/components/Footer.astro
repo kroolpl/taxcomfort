@@ -1,0 +1,42 @@
+---
+const { lang } = Astro.params;
+const isPolish = lang !== 'en';
+
+const content = isPolish ? {
+  rights: 'Wszelkie prawa zastrzeżone',
+  address: 'Adres',
+  contact: 'Kontakt'
+} : {
+  rights: 'All rights reserved',
+  address: 'Address',
+  contact: 'Contact'
+};
+---
+
+<footer class="bg-primary text-white mt-20">
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-xl font-bold mb-4">TAX COMFORT</h3>
+        <p class="text-sm opacity-80">© 2024 TAX COMFORT. {content.rights}.</p>
+      </div>
+      
+      <div>
+        <h4 class="text-lg font-semibold mb-4">{content.address}</h4>
+        <address class="not-italic text-sm opacity-80">
+          <p>ul. Example 123</p>
+          <p>00-000 Warsaw</p>
+          <p>Poland</p>
+        </address>
+      </div>
+      
+      <div>
+        <h4 class="text-lg font-semibold mb-4">{content.contact}</h4>
+        <div class="text-sm opacity-80">
+          <p>+48 123 456 789</p>
+          <p>contact@taxcomfort.pl</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
