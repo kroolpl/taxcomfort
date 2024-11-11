@@ -6,8 +6,18 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const currentPath = Astro.url.pathname;
-const getActiveClass = (path: string) => 
-  currentPath.includes(path) ? 'text-cta font-semibold' : 'text-secondary hover:text-primary';
+const getActiveClass = (path: string) => {
+  if (path === '/') {
+    // For home page, only match exact '/' or '/en'
+    return currentPath === '/' || currentPath === '/en' 
+      ? 'text-cta font-semibold' 
+      : 'text-secondary hover:text-primary';
+  }
+  // For other pages, use includes
+  return currentPath.includes(path) 
+    ? 'text-cta font-semibold' 
+    : 'text-secondary hover:text-primary';
+};
 
 // Define correct paths for each language
 const paths = {
